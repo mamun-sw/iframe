@@ -1,52 +1,56 @@
 <script>
-		
-	const main = 'http://localhost:5173/#/valuation/0301/214/427';
-	const unit = `http://localhost:5173/#/valuation/4001/382/98/0/0/6266364028`;
-
-	function handleClick(url) {
-			const data = {
-				key: "Hello Placepoint!"
-			}
-			openWindowWithIframe(url, data);
-	}
+	const urlSingleAddress = 'http://localhost:5173/#/valuation/0301/214/463'
+	const urlMultipleAddress = 'http://localhost:5173/#/valuation/0301/214/427'
 
 
-	function openWindowWithIframe(iframeSrc, dataToSend) {
-			const newWindow = window.open('', '_blank', 'popup');
-
-			const iframe = document.createElement('iframe');
+	function loadIframe(iframeSrc, dataToSend) {
+			const iframe = document.getElementById('valuation');
 			iframe.src = iframeSrc;
 
 			iframe.style.width = '100%';
 			iframe.style.height = '100%';
-			iframe.style.border = 'none';
-			iframe.style.overflow = 'hidden';
-			iframe.style.position = 'fixed';
-			iframe.style.top = '0';
-			iframe.style.left = '0';
-			iframe.style.right = '0';
-			iframe.style.bottom = '0';
-			
-			
-			newWindow.document.body.appendChild(iframe);
 
 			iframe.onload = function() {
 					iframe.contentWindow.postMessage(dataToSend, iframeSrc);
 			};
 	}
 
+	let dialog;
+
+	const openDialog = (url) => {
+		const data = {
+			key: "Hello Placepoint!"
+		}
+		loadIframe(url, data);
+
+		dialog?.showModal();
+	};
+
+	const closeDialog = () => {
+		dialog?.close();
+
+	};
 </script>
 
 
 <section >
-
-	<button on:click={()=>handleClick(main)}>
-		Propcloud valuation page (Main)
+	<!-- <button class="mybutton" on:click={()=>openDialog(urlSingleAddress)}>
+		Propcloud valuation page (Single Unit)
+	</button> -->
+	<button class="mybutton" on:click={()=>openDialog(urlMultipleAddress)}>
+		Propcloud valuation page (Multiple Unit)
 	</button>
 
-	<button on:click={()=>handleClick(unit)}>
-		Propcloud valuation page (Unit)
-	</button>
+
+	<dialog open bind:this={dialog} class=" w-[1000px] h-[700px] rounded-xl border overflow-hidden">
+		<div class="h-12 bg-white border-b flex justify-end items-center px-6">
+			<button class=" bg-slate-500 p-1 px-2 text-sm hover:bg-slate-500/80 text-white rounded-lg" on:click={closeDialog}>Close</button>
+		</div>
+		<div class="h-[calc(100%-3rem)] w-full overflow-y-auto">
+			<iframe id="valuation" title="valuation" frameborder="0"></iframe>
+		</div>
+	</dialog>
+
 </section>
 
 
@@ -56,7 +60,7 @@
 		justify-content: center;
 	}
 
-	button{
+	.mybutton{
 		padding: 10px 20px;
 		margin: 10px;
 		height: auto;
@@ -69,7 +73,7 @@
 		cursor: pointer;
 	}
 
-	button:hover{
+	.mybutton:hover{
 		background-color: #0056b3;
 	}
 </style>
