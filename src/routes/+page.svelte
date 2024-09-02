@@ -1,6 +1,6 @@
 <script>
-	const urlSingleAddress = 'http://localhost:5173/#/valuation/4001/46/432'
-	const urlMultipleAddress = 'http://localhost:5173/#/valuation/0301/214/427'
+	const urlSingleAddress = 'https://stagingapp.propcloud.no/#/valuation/4001/46/432'
+	const urlMultipleAddress = 'https://stagingapp.propcloud.no/#/valuation/0301/214/427'
 
 	let iframe;
 
