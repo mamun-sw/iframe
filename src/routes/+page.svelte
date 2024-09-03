@@ -1,37 +1,42 @@
 <script>
-	const urlSingleAddress = 'https://stagingapp.propcloud.no/#/valuation/4001/46/432'
-	const urlMultipleAddress = 'https://stagingapp.propcloud.no/#/valuation/0301/214/427'
+		import {page} from '$app/stores';
+		const BASE_URL = import.meta.env.VITE_PUBLIC_PROPCLOUD_URL;
 
-	let iframe;
+		const token = $page.url.searchParams.get('token'); 
 
-	function loadIframe(iframeSrc, dataToSend) {
-			iframe.src = iframeSrc;
+		const urlSingleAddress = `${BASE_URL}/#/valuation/4001/46/432?token=${token}`;
+		const urlMultipleAddress = `${BASE_URL}/#/valuation/0301/214/427?token=${token}`;
 
-			iframe.style.width = '100%';
-			iframe.style.height = '100%';
+		let iframe;
 
-			iframe.onload = function() {
-					iframe.contentWindow.postMessage(dataToSend, iframeSrc);
-			};
-	}
+		function loadIframe(iframeSrc, dataToSend) {
+				iframe.src = iframeSrc;
 
-	let dialog;
+				iframe.style.width = '100%';
+				iframe.style.height = '100%';
 
-	const openDialog = (url) => {
-		const data = {
-			key: "Hello Placepoint!"
+				iframe.onload = function() {
+						iframe.contentWindow.postMessage(dataToSend, iframeSrc);
+				};
 		}
-		loadIframe(url, data);
 
-		dialog?.showModal();
-	};
+		let dialog;
 
-	const closeDialog = () => {
-		dialog?.close();
+		const openDialog = (url) => {
+			const data = {
+				key: "Hello Placepoint!"
+			}
+			loadIframe(url, data);
 
-		// destroy iframe
-		iframe.src = '';
-	};
+			dialog?.showModal();
+		};
+
+		const closeDialog = () => {
+			dialog?.close();
+
+			// destroy iframe
+			iframe.src = '';
+		};
 
 </script>
 
